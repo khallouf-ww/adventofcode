@@ -5,10 +5,10 @@
  * Date: 17.01.2019
  * Time: 10:58
  */
-$input = trim(file_get_contents("8_inputData.txt"));
+$input = file_get_contents("8_inputData.txt");
 $numOfNode = array_map(function($x) {
     return intval($x);
-}, explode(" ", trim($input)));
+}, explode(" ", $input));
 $position = 0;
 $meta_entries = array();
 
@@ -55,4 +55,4 @@ for ($position;  $position < count($numOfNode) ;$position++ ){
     }
 }
 
-echo array_sum($meta_entries);
+echo "The sum of all metadata entries is : " . array_sum($meta_entries);
