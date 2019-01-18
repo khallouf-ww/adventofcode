@@ -6,16 +6,18 @@
  * Time: 11:33
  */
 
-/* Day 4: Repose Record*/
+
 
 $records =file("4_inputData.txt");
 $currentguard = null;
 $lastminute = 0;
 $awake = true;
 $guardtotals = array();
+
+
 function cmp_fun($a, $b) {
-    preg_match('/\[([0-9]{4})\-([0-9]{2})\-([0-9]{2}) ([0-9]{2}):([0-9]{2})\]/', $a, $atimes);
-    preg_match('/\[([0-9]{4})\-([0-9]{2})\-([0-9]{2}) ([0-9]{2}):([0-9]{2})\]/', $b, $btimes);
+    preg_match('~\[([0-9]{4})\-([0-9]{2})\-([0-9]{2}) ([0-9]{2}):([0-9]{2})\]~', $a, $atimes);
+    preg_match('~\[([0-9]{4})\-([0-9]{2})\-([0-9]{2}) ([0-9]{2}):([0-9]{2})\]~', $b, $btimes);
     if (intval($atimes[1].$atimes[2].$atimes[3].$atimes[4].$atimes[5]) == intval($btimes[1].$btimes[2].$btimes[3].$btimes[4].$btimes[5])) {
         return 0;
     }
@@ -27,8 +29,8 @@ function cmp_fun($a, $b) {
 usort($records,"cmp_fun");
 
 foreach ($records as $record) {
-    preg_match('/\[[0-9]{4}\-([0-9]{2})\-([0-9]{2}) ([0-9]{2}):([0-9]{2})\]/', $record, $timestamps);
-    preg_match('/Guard #([0-9]+)/', $record, $guard);
+    preg_match('~\[[0-9]{4}\-([0-9]{2})\-([0-9]{2}) ([0-9]{2}):([0-9]{2})\]~', $record, $timestamps);
+    preg_match('~Guard #([0-9]+)~', $record, $guard);
     if (count($guard) > 0) {
         if (!$awake && $currentguard) {
             $timeasleep = 60 - $lastminute;
@@ -49,11 +51,11 @@ foreach ($records as $record) {
                 'minutes' => array_fill(0, 60, 0)
             );
         }
-    } elseif (strpos($record, 'falls asleep')) { //strpos — Find the position of the first occurrence of a substring in a string
+    } elseif (strpos($record, 'falls asleep') !== false) { //strpos — Find the position of the first occurrence of a substring in a string
         $awake = false;
         $lastminute = intval($timestamps[4]);
 
-    } elseif (strpos($record, 'wakes up')) {
+    } elseif (strpos($record, 'wakes up') !== false) {
         if ($currentguard) {
             $timeasleep = intval($timestamps[4]) - $lastminute;
             $guardtotals[$currentguard]['asleep'] += $timeasleep;

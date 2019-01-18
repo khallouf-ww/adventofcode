@@ -7,8 +7,8 @@
  */
 
 $input = file_get_contents("6_inputData.txt");
-$coordinates = array_map(function($x) {
-    $expl = explode(", ", $x);
+$coordinates = array_map(function($val) {
+    $expl = explode(", ", $val);
     return array(
         'x' => intval($expl[0]),
         'y' => intval($expl[1])
@@ -16,15 +16,15 @@ $coordinates = array_map(function($x) {
 }, explode("\n", trim($input)));
 
 
-function expandgrid() {
+function expandgrid() use ($grid,$coordinates,$size){
     global $grid;
     global $coordinates;
     global $size;
 
-    $coordinates = array_map(function($x) {
+    $coordinates = array_map(function($val) {
         return array(
-            'x' => $x['x']+1,
-            'y' => $x['y']+1
+            'x' => $val['x']+1,
+            'y' => $val['y']+1
         );
     }, $coordinates);
 
@@ -61,10 +61,9 @@ $largest = array_reduce($coordinates, function($c, $i) {
 for($i = 0; $i < $largest+1; $i++) {
     for ($j = 0; $j < $largest+1; $j++) {
 
-        $distances = array_map(function($x) {
-            global $j;
-            global $i;
-            return (abs($i - $x['y']) + abs($j - $x['x']));
+        $distances = array_map(function($val) use ($i,$j) {
+
+            return (abs($i - $val['y']) + abs($j - $val['x']));
         }, $coordinates);
 
         if (array_sum($distances) < 10000) {

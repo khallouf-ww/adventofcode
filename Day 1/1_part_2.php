@@ -1,10 +1,11 @@
 
-/*Day 1: Chronal Calibration*/
+/* Day 1: Chronal Calibration */
+
 <?php
 $frequency  = 0;
-$seen = array(0);
+$seen[] = $newfrequency;
 $currentk = 0;
-$newfrequency = null;
+
 $changes=file("1_inputData.txt");
 
 do {

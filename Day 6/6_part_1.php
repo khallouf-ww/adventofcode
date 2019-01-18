@@ -8,8 +8,8 @@
 
 
 $input = file_get_contents("6_inputData.txt");
-$coordinates = array_map(function($x) {
-    $expl = explode(", ", $x);
+$coordinates = array_map(function($val) {
+    $expl = explode(", ", $val);
     return array(
         'x' => intval($expl[0]),
         'y' => intval($expl[1])
@@ -21,20 +21,19 @@ function expandgrid() {
     global $grid;
     global $coordinates;
 
-    $coordinates = array_map(function($x) {
+    $coordinates = array_map(function($val) {
         return array(
-            'x' => $x['x']+1,
-            'y' => $x['y']+1
+            'x' => $val['x']+1,
+            'y' => $val['y']+1
         );
     }, $coordinates);
 
     for($i = 0; $i < count($grid); $i++) {
         for ($j = 0; $j < count($grid); $j++) {
 
-            $distances = array_map(function($x) {
-                global $j;
-                global $i;
-                return (($i - $x['y']) + ($j - $x['x']));
+            $distances = array_map(function($val) use ($i,$j) {
+              
+                return (($i - $val['y']) + ($j - $val['x']));
             }, $coordinates);
 
             $shortest = min($distances);
@@ -66,11 +65,9 @@ for($i = 0; $i < $largest+1; $i++) {
         $distances = null;
         $zone = null;
 
-        $distances = array_map(function($x) {
-            global $j;
-            global $i;
-            return (abs($i - $x['y']) + abs($j - $x['x']));
-        }, $coordinates);
+        $distances = array_map(function($val) use ($i, $j)  {
+            return (abs($i - $val['y']) + abs($j - $val['x']));
+            }, $coordinates);
 
         $shortest = min($distances);
         $counts = array_count_values($distances);

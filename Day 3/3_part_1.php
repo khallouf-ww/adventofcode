@@ -6,12 +6,13 @@
  * Date: 08.01.2019
  * Time: 11:56
  */
-/*  Day 3: No Matter How You Slice It*/
+
+/*  Day 3: No Matter How You Slice It */
 
 $claims= file("3_inputData.txt");
 $fabric = array_fill(0, 1000, array_fill(0, 1000, 0)); //array_fill — Fill an array with values
 foreach($claims as $claim) {
-    preg_match('/\#[0-9]+ \@ ([0-9]+),([0-9]+): ([0-9]+)x([0-9]+)/', $claim, $data);//preg_match — Perform a regular expression match
+    preg_match('~#[0-9]+ @ ([0-9]+),([0-9]+): ([0-9]+)x([0-9]+)~', $claim, $data);//preg_match — Perform a regular expression match
     $x = intval($data[1]);//intval — Get the integer value of a variable
     $y = intval($data[2]);
     $w = intval($data[3]);
