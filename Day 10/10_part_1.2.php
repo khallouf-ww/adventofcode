@@ -84,3 +84,4 @@ for ($y=$minY ; $y <= $maxY ; $y++) {
     }
     echo "\n";
 }
+echo "Done in: " . $seconds . " seconds";
